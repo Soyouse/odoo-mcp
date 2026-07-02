@@ -1,1 +1,11 @@
 npm test
+
+# Garde anti-fuite (repo destiné à l'open source) : secrets + mots interdits
+# (noms clients, IPs privées — liste LOCALE hors repo, jamais publiée).
+# Best-effort pour les contributeurs (skip si gitleaks/config absents),
+# BLOQUANT sur la machine d'origine. USERPROFILE d'abord : gitleaks est un
+# binaire Windows, il ne résout pas les chemins MSYS /c/....
+GITLEAKS_CFG="${USERPROFILE:-$HOME}/.claude/secrets/gitleaks-custom.toml"
+if command -v gitleaks >/dev/null 2>&1 && [ -f "$GITLEAKS_CFG" ]; then
+  gitleaks git --staged --config "$GITLEAKS_CFG" .
+fi
