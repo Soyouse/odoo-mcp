@@ -1,0 +1,4 @@
+# Scripts shell (hooks husky) DOIVENT rester en LF — CRLF casse l'exécution sh.
+* text=auto
+*.sh text eol=lf
+.husky/* text eol=lf

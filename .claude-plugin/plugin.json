@@ -1,0 +1,19 @@
+{
+  "name": "odoo-mcp",
+  "version": "1.0.0",
+  "description": "Guarded Odoo MCP for Claude Code — post-write readback (no more blind writes), duplicate-send & duplicate-invoice guards (fail-closed), silent-email scan, known-pitfall warnings, and an ID-provenance hook that blocks hallucinated record IDs.",
+  "author": { "name": "Soyouse", "url": "https://github.com/Soyouse" },
+  "homepage": "https://github.com/Soyouse/odoo-mcp",
+  "repository": "https://github.com/Soyouse/odoo-mcp",
+  "license": "MIT",
+  "keywords": ["odoo", "mcp", "crm", "invoicing", "guardrails", "safety"],
+  "mcpServers": {
+    "odoo": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/proxy.js"],
+      "env": {
+        "ODOO_PROXY_YOLO": "${ODOO_PROXY_YOLO:-false}"
+      }
+    }
+  }
+}

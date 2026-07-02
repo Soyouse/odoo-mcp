@@ -1,0 +1,12 @@
+# ⚠️ PIN EXACT (pas de >=) : le backend est la SEULE protection runtime du CRM
+# prod via le proxy. Une montée de version silencieuse peut changer le FORMAT
+# des réponses → casser la récolte d'IDs du hook anti-hallucination (le hook
+# parse `"id": N` dans la réponse). Toute montée = re-audit obligatoire
+# (list_models, format search_records, message "Invalid field") AVANT de re-pin.
+# 0.6.0 audité live le 2026-06-10 : T-01 corrigé, format de réponse compatible.
+# 2026-06-25 : re-audit complet du code (tools.py/odoo_connection.py/config.py).
+#   call_model_method (= execute_kw brut) existe depuis 0.6.0, gaté par double
+#   opt-in is_write_allowed + enable_method_calls → activé via
+#   ODOO_MCP_ENABLE_METHOD_CALLS=true (lib/backend.js). À toute montée de version :
+#   re-vérifier que ce double opt-in + la signature execute_kw n'ont pas bougé.
+mcp-server-odoo==0.6.0

@@ -1,0 +1,11 @@
+node_modules/
+.stryker-tmp/
+reports/
+*.log
+.secrets.json
+.env
+*.bak-secrets
+credentials.json
+token.json
+*.png
+hooks/state/

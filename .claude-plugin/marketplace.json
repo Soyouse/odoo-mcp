@@ -1,0 +1,11 @@
+{
+  "name": "soyouse",
+  "owner": { "name": "Soyouse", "url": "https://github.com/Soyouse" },
+  "plugins": [
+    {
+      "name": "odoo-mcp",
+      "source": "./",
+      "description": "Guarded Odoo MCP — post-write readback, duplicate-send/-invoice guards, silent-email scan, ID-provenance hook."
+    }
+  ]
+}
