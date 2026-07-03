@@ -1,0 +1,65 @@
+# CI GitHub Actions — BONUS async, JAMAIS une dépendance (doctrine : le gate
+# qui bloque = husky local ; la CI détecte ce que le local ne peut pas voir).
+# Apports uniques : cross-OS (Linux+Windows) + CONTRAT contre de VRAIS Odoo
+# 17/18 éphémères (test/run-contract.sh — même script qu'en local, parité).
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  mutation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/cache@v4
+        with:
+          path: reports/stryker-incremental.json
+          key: stryker-incremental-${{ github.sha }}
+          restore-keys: stryker-incremental-
+      - run: npm ci
+      - run: npx stryker run --incremental --incrementalFile reports/stryker-incremental.json
+
+  # Le contrat que le fake backend ne peut PAS prouver : le vrai Odoo (17 ET 18)
+  # se comporte comme on le prétend (champs stables, formats, resource fields).
+  contract:
+    strategy:
+      matrix:
+        odoo: ["17.0", "18.0"]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: npm ci
+      - run: sh test/run-contract.sh ${{ matrix.odoo }}

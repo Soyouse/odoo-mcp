@@ -5,6 +5,7 @@
   "main": "proxy.js",
   "scripts": {
     "test": "node lib/config.test.js && node lib/validate.test.js && node lib/fields.test.js && node lib/readback.test.js && node lib/canary.test.js && node lib/handlers.test.js && node hooks/odoo-provenance.test.cjs && node test/proxy.test.js",
+    "test:contract": "sh test/run-contract.sh",
     "prepare": "husky",
     "mutation": "stryker run"
   },
