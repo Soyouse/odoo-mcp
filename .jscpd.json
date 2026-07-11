@@ -1,0 +1,7 @@
+{
+  "threshold": 2.9,
+  "minLines": 5,
+  "minTokens": 40,
+  "ignore": ["**/node_modules/**", "**/reports/**", "**/coverage/**", "**/build/**", "**/dist/**", "**/.stryker-tmp/**", "**/package-lock.json"],
+  "gitignore": true
+}

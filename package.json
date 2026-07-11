@@ -7,18 +7,31 @@
     "test": "node lib/config.test.js && node lib/validate.test.js && node lib/fields.test.js && node lib/readback.test.js && node lib/canary.test.js && node lib/handlers.test.js && node hooks/odoo-provenance.test.cjs && node test/proxy.test.js",
     "test:contract": "sh test/run-contract.sh",
     "prepare": "husky",
-    "mutation": "stryker run"
+    "mutation": "stryker run",
+    "dup": "jscpd .",
+    "arch": "depcruise --config .dependency-cruiser.cjs .",
+    "coupling": "npm run dup && npm run arch"
   },
-  "keywords": ["odoo", "mcp", "claude-code", "guardrails"],
+  "keywords": [
+    "odoo",
+    "mcp",
+    "claude-code",
+    "guardrails"
+  ],
   "author": "Soyouse",
   "license": "MIT",
   "description": "Guarded Odoo MCP for Claude Code — post-write readback, duplicate-send/-invoice guards, silent-email scan, ID-provenance hook.",
-  "repository": { "type": "git", "url": "https://github.com/Soyouse/odoo-mcp" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Soyouse/odoo-mcp"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0"
   },
   "devDependencies": {
     "@stryker-mutator/core": "^9.6.1",
-    "husky": "^9.1.7"
+    "dependency-cruiser": "^18.0.0",
+    "husky": "^9.1.7",
+    "jscpd": "^5.0.12"
   }
 }
