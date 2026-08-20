@@ -1,11 +1,15 @@
 {
   "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
-  "_comment": "Mutation testing de la LOGIQUE PURE (config+validate+fields) : branches déterministes, mutants signifiants. handlers.js (orchestration, riche en strings de format = mutants cosmétiques) + backend.js (transport) + proxy.js (shell) sont couverts par les tests COMPORTEMENTAUX (lib/handlers.test.js unit + test/proxy.test.js intégration : chaque branche testée), PAS par mutation (faible valeur + spawn lent). Command runner = les suites des fichiers mutés. break = cliquet anti-régression : NE PAS baisser.",
+  "_comment": "Mutation testing de la LOGIQUE PURE (config+validate+fields+readback) : branches déterministes, mutants signifiants. handlers.js (orchestration, riche en strings de format = mutants cosmétiques) + backend.js (transport) + proxy.js (shell) + canary.js (I/O) sont couverts par les tests COMPORTEMENTAUX (lib/handlers.test.js unit + test/proxy.test.js intégration : chaque branche testée), PAS par mutation. Runner = vitest (SEUL runner avec coverageAnalysis perTest : workers gardés vivants, zéro spawn par mutant — le commandRunner d'avant relançait TOUTE la suite par mutant). vitest.stryker.config.js restreint la suite aux fichiers mutés + handlers (proxy/hook spawnent des process : coût prohibitif, zéro mutant tué en plus). break = cliquet anti-régression posé à la MESURE du 2026-08-20 (score RÉEL 88.44 % sur 761 mutants après portage vitest : config 91.94 / validate 96.83 / fields 82.52 / readback 88.18), marge délibérée de ~2,4 pts. NE PAS baisser.",
   "packageManager": "npm",
-  "testRunner": "command",
-  "commandRunner": { "command": "node lib/config.test.js && node lib/validate.test.js && node lib/fields.test.js && node lib/readback.test.js && node lib/handlers.test.js" },
-  "coverageAnalysis": "off",
+  "testRunner": "vitest",
+  "vitest": { "configFile": "vitest.stryker.config.js" },
+  "coverageAnalysis": "perTest",
+  "incremental": true,
+  "incrementalFile": "reports/stryker-incremental.json",
+  "timeoutMS": 60000,
+  "concurrency": 2,
   "mutate": ["lib/config.js", "lib/validate.js", "lib/fields.js", "lib/readback.js"],
   "reporters": ["clear-text", "progress"],
-  "thresholds": { "high": 90, "low": 80, "break": 85 }
+  "thresholds": { "high": 90, "low": 80, "break": 86 }
 }

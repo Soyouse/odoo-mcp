@@ -4,13 +4,14 @@
   "type": "module",
   "main": "proxy.js",
   "scripts": {
-    "test": "node lib/config.test.js && node lib/validate.test.js && node lib/fields.test.js && node lib/readback.test.js && node lib/canary.test.js && node lib/handlers.test.js && node hooks/odoo-provenance.test.cjs && node test/proxy.test.js",
+    "test": "vitest run",
     "test:contract": "sh test/run-contract.sh",
     "prepare": "husky",
     "mutation": "stryker run",
     "dup": "jscpd .",
     "arch": "depcruise --config .dependency-cruiser.cjs .",
-    "coupling": "npm run dup && npm run arch"
+    "coupling": "npm run dup && npm run arch",
+    "test:watch": "vitest"
   },
   "keywords": [
     "odoo",
@@ -30,8 +31,10 @@
   },
   "devDependencies": {
     "@stryker-mutator/core": "^9.6.1",
+    "@stryker-mutator/vitest-runner": "^9.6.1",
     "dependency-cruiser": "^18.0.0",
     "husky": "^9.1.7",
-    "jscpd": "^5.0.12"
+    "jscpd": "^5.0.12",
+    "vitest": "^4.1.11"
   }
 }

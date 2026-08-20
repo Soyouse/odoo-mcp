@@ -42,7 +42,8 @@ jobs:
           key: stryker-incremental-${{ github.sha }}
           restore-keys: stryker-incremental-
       - run: npm ci
-      - run: npx stryker run --incremental --incrementalFile reports/stryker-incremental.json
+      # incremental + incrementalFile + perTest + timeoutMS + concurrency = stryker.conf.json
+      - run: npm run mutation
 
   # Le contrat que le fake backend ne peut PAS prouver : le vrai Odoo (17 ET 18)
   # se comporte comme on le prétend (champs stables, formats, resource fields).
