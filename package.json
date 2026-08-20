@@ -5,27 +5,19 @@
   "main": "proxy.js",
   "scripts": {
     "test": "vitest run",
+    "test:watch": "vitest",
     "test:contract": "sh test/run-contract.sh",
     "prepare": "husky",
     "mutation": "stryker run",
     "dup": "jscpd .",
     "arch": "depcruise --config .dependency-cruiser.cjs .",
-    "coupling": "npm run dup && npm run arch",
-    "test:watch": "vitest"
+    "coupling": "npm run dup && npm run arch"
   },
-  "keywords": [
-    "odoo",
-    "mcp",
-    "claude-code",
-    "guardrails"
-  ],
+  "keywords": ["odoo", "mcp", "claude-code", "guardrails"],
   "author": "Soyouse",
   "license": "MIT",
   "description": "Guarded Odoo MCP for Claude Code — post-write readback, duplicate-send/-invoice guards, silent-email scan, ID-provenance hook.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Soyouse/odoo-mcp"
-  },
+  "repository": { "type": "git", "url": "https://github.com/Soyouse/odoo-mcp" },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0"
   },

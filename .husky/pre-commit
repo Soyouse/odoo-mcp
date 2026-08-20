@@ -1,10 +1,16 @@
-npm test
-
-# Garde anti-fuite (repo destiné à l'open source) : secrets + mots interdits
-# (noms clients, IPs privées — liste LOCALE hors repo, jamais publiée).
-# Best-effort pour les contributeurs (skip si gitleaks/config absents),
-# BLOQUANT sur la machine d'origine. USERPROFILE d'abord : gitleaks est un
-# binaire Windows, il ne résout pas les chemins MSYS /c/....
+# ⚠️⚠️ `npm test` RETIRÉ D'ICI le 09/08/2026 (propagation infra-mcp) : CLAUDE.md interdit
+# la full-suite en pre-commit (« le 40 ans »). Elle tourne désormais au PRE-PUSH.
+#
+# ⚠️⚠️ CE QUI RESTE EST UNE GARDE DE SÉCURITÉ, ET ELLE DOIT RESTER EN PRE-COMMIT — PAS
+#    AILLEURS. Un secret entré dans l'historique git est IRRÉVERSIBLE (il faut réécrire
+#    l'historique ET révoquer le secret). Le pre-push serait déjà trop tard : le commit
+#    existe. C'est l'exception à « rien de bloquant au commit » : ce n'est pas un test,
+#    c'est un cliquet anti-fuite, et il coûte des millisecondes.
+#
+# Repo destiné à l'OPEN SOURCE : secrets + mots interdits (noms clients, IPs privées —
+# liste LOCALE hors repo, jamais publiée). Best-effort pour les contributeurs (skip si
+# gitleaks/config absents), BLOQUANT sur la machine d'origine. USERPROFILE d'abord :
+# gitleaks est un binaire Windows, il ne résout pas les chemins MSYS /c/....
 GITLEAKS_CFG="${USERPROFILE:-$HOME}/.claude/secrets/gitleaks-custom.toml"
 if command -v gitleaks >/dev/null 2>&1 && [ -f "$GITLEAKS_CFG" ]; then
   gitleaks git --staged --config "$GITLEAKS_CFG" .

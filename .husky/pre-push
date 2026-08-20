@@ -1,0 +1,26 @@
+#!/bin/sh
+# ⚠️ Gate AVANT que quoi que ce soit quitte la machine : la suite complète.
+# Bypass urgence (push doc-only, réseau) : git push --no-verify — à justifier dans le message.
+#
+# ⚠️⚠️ LA MUTATION N'EST PAS ICI, ET NE DOIT JAMAIS Y REVENIR (propagation infra-mcp, 09/08/2026).
+#    CLAUDE.md : « Mutation JAMAIS en pre-push/pre-commit (= le "40 ans" bloquant banni) → CI
+#    seule ». Stryker se compte en MINUTES ; un push qui coûte des minutes est un push qu'on
+#    finit par faire en `--no-verify`. Le cliquet `break` vit dans la CI, qui est ASYNC :
+#    elle attrape la régression sans jamais bloquer la main.
+cd "$(git rev-parse --show-toplevel)"
+
+JOURNAL="${TMPDIR:-/tmp}/$(basename "$PWD")-pre-push.log"
+
+echo "[pre-push] Unit…"
+npm test > "$JOURNAL" 2>&1 || {
+  echo ""
+  echo "❌ Tests ROUGES — push BLOQUÉ."
+  echo "─── échecs ───"
+  grep -E "FAIL|AssertionError|Timeout|timed out|✕|not ok" "$JOURNAL" | head -25
+  echo "─── log complet : $JOURNAL"
+  echo "   ⚠️ Rouge INTERMITTENT (vert au re-run) = test non déterministe, il se RÉPARE."
+  exit 1
+}
+
+echo "[pre-push] ✅ verts — push autorisé"
+exit 0
