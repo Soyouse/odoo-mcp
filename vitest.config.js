@@ -12,7 +12,9 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    include: ["lib/**/*.test.js", "hooks/**/*.test.js", "test/proxy.test.js"],
+    // Périmètre DÉRIVÉ du disque (glob), jamais une liste de fichiers : un test
+    // ajouté demain entre seul dans le filet. Seul contract.test.js est exclu.
+    include: ["lib/**/*.test.js", "hooks/**/*.test.js", "test/**/*.test.js"],
     exclude: ["node_modules/**", ".stryker-tmp/**", "test/contract.test.js"],
     testTimeout: 30000,
     hookTimeout: 30000,
